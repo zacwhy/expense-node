@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    form(method="post")
+        div
+            input(name="date", required, type="date")
+        div
+            input(
+                min="0"
+                name="amount"
+                placeholder="Amount"
+                required
+                type="number"
+            )
+        div
+            input(autocapitalize="none", name="account_a", placeholder="From", required)
+        div
+            input(autocapitalize="none", name="account_b", placeholder="To", required)
+        div
+            input(autocapitalize="none", name="description", placeholder="Description", required)
+        div
+            input(type="submit")
+    script.
+        document.querySelector('[name=date]').valueAsDate = new Date();

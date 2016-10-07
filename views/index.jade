@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  a(href="/insert") New transaction
+  p Total amount: #{total.amount}
+
+  table(border=1)
+    thead
+      tr
+        th id
+        th date
+        th account_a
+        th account_b
+        th description
+    tbody
+      each record in records
+        tr
+          td= record.id
+          td= record.transaction_date
+          td= record.account_a
+          td= record.account_b
+          td= record.description
