@@ -1,10 +1,12 @@
+'use strict';
+
 const
     express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    sqlite3 = require('sqlite3').verbose();
-
-const dbFilename = '../transactions/db';
+    sqlite3 = require('sqlite3').verbose(),
+    
+    config = require('./config');
 
 app.set('view engine', 'jade');
 
@@ -12,16 +14,16 @@ app.set('view engine', 'jade');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.get('/', (req, res) => {
-    const db = new sqlite3.Database(dbFilename, sqlite3.OPEN_READONLY);
+    const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READONLY);
 
-    var total, records;
-
-    db.get('SELECT sum(amount) as amount FROM t1', (err, row) => {
-        total = row;
-    });
+    let records, total;
 
     db.all('SELECT * FROM t1 ORDER BY transaction_date DESC, id DESC', (err, rows) => {
         records = rows;
+    });
+
+    db.get('SELECT sum(amount) as amount FROM t1', (err, row) => {
+        total = row;
     });
 
     db.close(() => {
@@ -36,7 +38,7 @@ app.get('/insert', (req, res) => {
 app.post('/insert', (req, res) => {
     //res.send(req.body); return;
 
-    const db = new sqlite3.Database(dbFilename, sqlite3.OPEN_READWRITE);
+    const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READWRITE);
 
     db.run('INSERT INTO t1 (transaction_date, amount, account_a, account_b, description) VALUES (?, ?, ?, ?, ?)', [
         req.body.date,
