@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
         total = row;
     });
 
-    db.all('SELECT * FROM t1 ORDER BY transaction_date DESC', (err, rows) => {
+    db.all('SELECT * FROM t1 ORDER BY transaction_date DESC, id DESC', (err, rows) => {
         records = rows;
     });
 
