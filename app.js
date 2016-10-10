@@ -2,13 +2,14 @@
 
 const
     express = require('express'),
-    app = express(),
+    dateFormat = require('dateformat'),
     bodyParser = require('body-parser'),
     sqlite3 = require('sqlite3').verbose(),
     
-    config = require('./config');
+    config = require('./config'),
+    app = express();
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 //app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -32,12 +33,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/insert', (req, res) => {
-    res.render('insert');
+    const entry = {
+        transaction_date: dateFormat(new Date(), 'yyyy-mm-dd')
+    };
+    res.render('form', { entry });
 });
 
 app.post('/insert', (req, res) => {
-    //res.send(req.body); return;
-
     const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READWRITE);
 
     db.run('INSERT INTO t1 (transaction_date, amount, account_a, account_b, description) VALUES (?, ?, ?, ?, ?)', [
@@ -46,6 +48,37 @@ app.post('/insert', (req, res) => {
         req.body.account_a,
         req.body.account_b,
         req.body.description
+    ]);
+    
+    db.close(() => {
+        res.redirect('/');
+    });
+});
+
+app.get('/entries/:id', (req, res) => {
+    const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READONLY);
+
+    let entry;
+
+    db.get('SELECT id, transaction_date, amount, account_a, account_b, description FROM t1 WHERE id = ?', [req.params.id], (err, row) => {
+        entry = row;
+    });
+
+    db.close(() => {
+        res.render('form', { entry });
+    });
+});
+
+app.post('/entries/:id', (req, res) => {
+    const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READWRITE);
+
+    db.run('UPDATE t1 SET transaction_date = ?, amount = ?, account_a = ?, account_b = ?, description = ? WHERE id = ?', [
+        req.body.date,
+        req.body.amount,
+        req.body.account_a,
+        req.body.account_b,
+        req.body.description,
+        req.params.id
     ]);
     
     db.close(() => {

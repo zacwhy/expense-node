@@ -18,8 +18,8 @@ block content
         tr
           //- td= entry.id
           td= entry.transaction_date
-          td= entry.amount
+          td
+            a(href="/entries/" + entry.id)= entry.amount
           td= entry.account_a
           td= entry.account_b
-          td
-            a(href="/entries/" + entry.id)= entry.description
+          td= entry.description
