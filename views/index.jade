@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  a(href="/insert") New transaction
+  a(href="/insert") New entry
   p Total amount: #{total.amount}
 
   table(border=1)
@@ -9,6 +9,7 @@ block content
       tr
         //- th id
         th date
+        th amount
         th account_a
         th account_b
         th description
@@ -17,6 +18,7 @@ block content
         tr
           //- td= record.id
           td= record.transaction_date
+          td= record.amount
           td= record.account_a
           td= record.account_b
           td= record.description
