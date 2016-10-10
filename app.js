@@ -16,18 +16,18 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.get('/', (req, res) => {
     const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READONLY);
 
-    let records, total;
+    let entries, total;
 
-    db.all('SELECT * FROM t1 ORDER BY transaction_date DESC, id DESC', (err, rows) => {
-        records = rows;
+    db.all('SELECT id, transaction_date, amount, account_a, account_b, description FROM t1 ORDER BY transaction_date DESC, id DESC', (err, rows) => {
+        entries = rows;
     });
 
-    db.get('SELECT sum(amount) as amount FROM t1', (err, row) => {
+    db.get('SELECT SUM(amount) AS amount FROM t1', (err, row) => {
         total = row;
     });
 
     db.close(() => {
-        res.render('index', { total, records });
+        res.render('index', { total, entries });
     });
 });
 

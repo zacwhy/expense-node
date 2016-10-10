@@ -14,11 +14,12 @@ block content
         th account_b
         th description
     tbody
-      each record in records
+      each entry in entries
         tr
-          //- td= record.id
-          td= record.transaction_date
-          td= record.amount
-          td= record.account_a
-          td= record.account_b
-          td= record.description
+          //- td= entry.id
+          td= entry.transaction_date
+          td= entry.amount
+          td= entry.account_a
+          td= entry.account_b
+          td
+            a(href="/entries/" + entry.id)= entry.description
