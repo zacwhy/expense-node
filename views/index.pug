@@ -8,7 +8,7 @@ block content
     tbody
       each entry in entries
         tr
-          td
+          td(style={'white-space': 'nowrap'})
             div= entry.transactionDate
             a(href='/entries/' + entry.id)= entry.amount
           td
