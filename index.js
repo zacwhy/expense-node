@@ -110,3 +110,14 @@ app.post('/entries/:id', (req, res) => {
 app.listen(5000, () => {
   console.log('listening on *:5000');
 });
+
+// http://stackoverflow.com/a/10429662
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('data', text => {
+  if (text.slice(0, -1) === 'q') {
+    process.exit();
+  }
+});
+
