@@ -1,25 +1,19 @@
 extends layout
 
 block content
-  a(href="/insert") New entry
+  a(href='/insert') New entry
   p Total amount: #{total.amount}
 
   table(border=1)
-    thead
-      tr
-        //- th id
-        th date
-        th amount
-        th account_a
-        th account_b
-        th description
     tbody
       each entry in entries
         tr
-          //- td= entry.id
-          td= entry.transaction_date
           td
-            a(href="/entries/" + entry.id)= entry.amount
-          td= entry.account_a
-          td= entry.account_b
-          td= entry.description
+            div= entry.transactionDate
+            a(href='/entries/' + entry.id)= entry.amount
+          td
+            div
+                span(style={color: 'red'})= entry.accountA + ' '
+                span &rarr;
+                span(style={color: 'blue'})= ' ' + entry.accountB
+            div= entry.description

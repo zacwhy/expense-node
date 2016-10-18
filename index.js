@@ -9,6 +9,10 @@ const
   config = require('./config'),
   app = express();
 
+const
+    monthNames = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    weekDayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 app.set('view engine', 'pug');
 
 //app.use(bodyParser.json()); // for parsing application/json
@@ -20,7 +24,24 @@ app.get('/', (req, res) => {
   let entries, total;
 
   db.all('SELECT id, transaction_date, amount, account_a, account_b, description FROM t1 ORDER BY transaction_date DESC, id DESC', (err, rows) => {
-    entries = rows;
+    entries = rows.map(({
+      id,
+      transaction_date,
+      amount,
+      account_a,
+      account_b,
+      description
+    }) => {
+      const d = new Date(transaction_date);
+      return {
+        id,
+        transactionDate: weekDayNames[d.getDay()].substring(0, 2) + ' ' + d.getDate() + ' ' + monthNames[d.getMonth()].substring(0, 3),
+        amount,
+        accountA: account_a,
+        accountB: account_b,
+        description
+      }
+    });
   });
 
   db.get('SELECT SUM(amount) AS amount FROM t1', (err, row) => {
