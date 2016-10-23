@@ -66,9 +66,9 @@ app.post('/insert', (req, res) => {
   db.run('INSERT INTO t1 (transaction_date, amount, account_a, account_b, description) VALUES (?, ?, ?, ?, ?)', [
     req.body.date,
     req.body.amount,
-    req.body.account_a,
-    req.body.account_b,
-    req.body.description
+    req.body.account_a.trim(),
+    req.body.account_b.trim(),
+    req.body.description.trim()
   ]);
 
   db.close(() => {
@@ -96,9 +96,9 @@ app.post('/entries/:id', (req, res) => {
   db.run('UPDATE t1 SET transaction_date = ?, amount = ?, account_a = ?, account_b = ?, description = ? WHERE id = ?', [
     req.body.date,
     req.body.amount,
-    req.body.account_a,
-    req.body.account_b,
-    req.body.description,
+    req.body.account_a.trim(),
+    req.body.account_b.trim(),
+    req.body.description.trim(),
     req.params.id
   ]);
 
@@ -120,4 +120,3 @@ process.stdin.on('data', text => {
     process.exit();
   }
 });
-
