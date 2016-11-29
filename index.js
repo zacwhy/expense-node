@@ -54,10 +54,21 @@ app.get('/', (req, res) => {
 });
 
 app.get('/insert', (req, res) => {
-  const entry = {
-    transaction_date: dateFormat(new Date(), 'yyyy-mm-dd')
-  };
-  res.render('form', { entry });
+  const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READONLY);
+
+  let transaction_date;
+
+  db.get('SELECT transaction_date FROM t1 ORDER BY created_on DESC LIMIT 1', (err, row) => {
+    transaction_date = row.transaction_date;
+  });
+
+  db.close(() => {
+    res.render('form', {
+      entry: {
+        transaction_date
+      }
+    });
+  });
 });
 
 app.post('/insert', (req, res) => {

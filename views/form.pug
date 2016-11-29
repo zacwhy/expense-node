@@ -5,6 +5,7 @@ block content
   form(method="post")
     div
       input(name="date" required type="date" value=entry.transaction_date)
+      button(id="today" type="button") Today
     div
       input(
           min=0
@@ -22,3 +23,9 @@ block content
       input(autocapitalize="none" name="description" placeholder="Description" required value=entry.description)
     div
       input(type="submit")
+  script.
+    var todayButton = document.querySelector('#today');
+    todayButton.onclick = function () {
+      var dateInput = document.querySelector('[name=date]');
+      dateInput.valueAsDate = new Date();
+    };
