@@ -4,16 +4,15 @@ const
   os = require('os'),
   networkInterfaces = os.networkInterfaces(),
 
-  filteredNetworkInterfaces = Object.keys(networkInterfaces).reduce((accumulator, currentValue) => {
-    const addresses = networkInterfaces[currentValue]
-      .filter(networkInterface => networkInterface.family === 'IPv4' && !networkInterface.internal)
-      .map(networkInterface => networkInterface.address);
+  addressMap = Object.keys(networkInterfaces).reduce((accumulator, currentValue) => {
+    const filtered = networkInterfaces[currentValue]
+      .filter(networkInterface => networkInterface.family === 'IPv4' && !networkInterface.internal);
 
-    if (addresses.length > 0) {
-      accumulator[currentValue] = addresses;
+    if (filtered.length > 0) {
+      accumulator[currentValue] = filtered.map(networkInterface => networkInterface.address);
     }
 
     return accumulator;
   }, {});
 
-module.exports = filteredNetworkInterfaces;
+module.exports = addressMap;
