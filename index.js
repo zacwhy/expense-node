@@ -119,8 +119,7 @@ app.post('/entries/:id', (req, res) => {
 });
 
 app.listen(5000, () => {
-  console.log('listening on *:5000');
-  console.log(require('./address-map'));
+  console.log('listening on ' + require('ip').address() + ':5000');
 });
 
 // http://stackoverflow.com/a/10429662
