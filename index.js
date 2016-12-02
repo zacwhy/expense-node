@@ -2,7 +2,6 @@
 
 const
   express = require('express'),
-  dateFormat = require('dateformat'),
   bodyParser = require('body-parser'),
   sqlite3 = require('sqlite3').verbose(),
 
