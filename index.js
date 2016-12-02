@@ -7,7 +7,9 @@ const
   sqlite3 = require('sqlite3').verbose(),
 
   config = require('./config'),
-  app = express();
+  app = express(),
+
+  port = 5000;
 
 const
   monthNames = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -118,8 +120,9 @@ app.post('/entries/:id', (req, res) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log('listening on ' + require('ip').address() + ':5000');
+app.listen(port, () => {
+  const address = require('ip').address();
+  console.log('listening on ' + address + ':' + port);
 });
 
 // http://stackoverflow.com/a/10429662
