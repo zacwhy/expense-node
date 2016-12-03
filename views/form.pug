@@ -1,28 +1,28 @@
 extends layout
 
 block content
-  a(href="/") List of entries
-  form(method="post")
+  a(href='/') List of entries
+  form(method='post')
     div
-      input(name="date" required type="date" value=entry.transaction_date)
-      button(id="today" type="button") Today
+      input(name='date' required type='date' value=entry.transaction_date)
+      button(id='today' type='button') Today
     div
       input(
           min=0
-          name="amount"
-          placeholder="Amount"
+          name='amount'
+          placeholder='Amount'
           required
-          type="number"
+          type='number'
           value=entry.amount
       )
     div
-      input(autocapitalize="none" name="account_a" placeholder="From" required value=entry.account_a)
+      input(autocapitalize='none' name='account_a' placeholder='From' required value=entry.account_a)
     div
-      input(autocapitalize="none" name="account_b" placeholder="To" required value=entry.account_b)
+      input(autocapitalize='none' name='account_b' placeholder='To' required value=entry.account_b)
     div
-      input(autocapitalize="none" name="description" placeholder="Description" required value=entry.description)
+      input(autocapitalize='none' name='description' placeholder='Description' required value=entry.description)
     div
-      input(type="submit")
+      input(type='submit')
     div
       input(id='evaluateAmount' placeholder='Evaluate')
   script(src='/static/mathjs/dist/math.min.js')
