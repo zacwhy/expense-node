@@ -3,11 +3,10 @@
 const
   express = require('express'),
   bodyParser = require('body-parser'),
+  path = require('path'),
   sqlite3 = require('sqlite3').verbose(),
-
   config = require('./config'),
   app = express(),
-
   port = 5000;
 
 const
@@ -15,9 +14,13 @@ const
   weekDayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 //app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'node_modules')));
 
 app.get('/', (req, res) => {
   const db = new sqlite3.Database(config.databaseFilename, sqlite3.OPEN_READONLY);

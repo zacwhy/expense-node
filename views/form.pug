@@ -23,9 +23,7 @@ block content
       input(autocapitalize="none" name="description" placeholder="Description" required value=entry.description)
     div
       input(type="submit")
-  script.
-    var todayButton = document.querySelector('#today');
-    todayButton.onclick = function () {
-      var dateInput = document.querySelector('[name=date]');
-      dateInput.valueAsDate = new Date();
-    };
+    div
+      input(id='evaluateAmount' placeholder='Evaluate')
+  script(src='/static/mathjs/dist/math.min.js')
+  script(src='/scripts/entry.js')
